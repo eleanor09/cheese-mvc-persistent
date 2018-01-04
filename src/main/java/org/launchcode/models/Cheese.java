@@ -23,10 +23,10 @@ public class Cheese {
     @Size(min=1, message = "Description must not be empty")
     private String description;
 
-    @ManyToOne //can be many cheeses to one category. Will contain ID on category for cheese obj.
+    @ManyToOne
     private Category category;
 
-    @ManyToMany(mappedBy = "cheeses")
+    @ManyToMany(mappedBy ="cheeses")
     private List<Menu> menus;
 
     public Cheese(String name, String description) {
@@ -62,13 +62,5 @@ public class Cheese {
 
     public void setCategory(Category category) {
         this.category = category;
-    }
-
-    public List<Menu> getMenus() {
-        return menus;
-    }
-
-    public void setMenus(List<Menu> menus) {
-        this.menus = menus;
     }
 }

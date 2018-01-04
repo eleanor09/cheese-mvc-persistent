@@ -41,21 +41,21 @@ public class CheeseController {
     @RequestMapping(value = "add", method = RequestMethod.GET)
     public String displayAddCheeseForm(Model model) {
         model.addAttribute("title", "Add Cheese");
-        model.addAttribute(new Cheese());
         model.addAttribute("categories", categoryDao.findAll());
+        model.addAttribute(new Cheese());
+
         return "cheese/add";
     }
 
     @RequestMapping(value = "add", method = RequestMethod.POST)
     public String processAddCheeseForm(@ModelAttribute  @Valid Cheese newCheese,
                                        Errors errors, @RequestParam int categoryId, Model model) {
-
         if (errors.hasErrors()) {
             model.addAttribute("title", "Add Cheese");
-            model.addAttribute("categories", categoryDao.findAll());
             return "cheese/add";
         }
-        Category cat = categoryDao.findOne(categoryId);
+
+        Category cat= categoryDao.findOne(categoryId);
         newCheese.setCategory(cat);
         cheeseDao.save(newCheese);
         return "redirect:";

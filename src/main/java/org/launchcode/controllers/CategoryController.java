@@ -1,6 +1,5 @@
 package org.launchcode.controllers;
 
-
 import org.launchcode.models.Category;
 import org.launchcode.models.data.CategoryDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,32 +17,35 @@ import javax.validation.Valid;
 public class CategoryController {
 
     @Autowired
-    private CategoryDao categoryDao; //creates a private field categoryDao of type CategoryDao
+    private CategoryDao categoryDao;
+    //The mechanism we use to interect with objects stored in database.
 
+    //request path: /category
     @RequestMapping(value = "")
-    public String index(Model model) {
+    public String index(Model model){
         model.addAttribute("categories", categoryDao.findAll());
-        model.addAttribute("title", "Cheese Categories");
+        model.addAttribute("title", "Categories");
+
         return "category/index";
     }
-
-    @RequestMapping(value = "add", method = RequestMethod.GET)
-    public String displayAddCatForm(Model model) {
+    //Request path: /category/add
+    @RequestMapping(value="add", method = RequestMethod.GET)
+    public String add(Model model) {
         model.addAttribute("title", "Add Category");
         model.addAttribute(new Category());
+
         return "category/add";
     }
 
-    @RequestMapping(value="add", method= RequestMethod.POST)
+    @RequestMapping(value="add", method = RequestMethod.POST)
     public String add(Model model,
-                      @ModelAttribute @Valid Category category, Errors errors) {
+                      @ModelAttribute @Valid Category category, Errors errors){
         if (errors.hasErrors()) {
             model.addAttribute("title", "Add Category");
             return "category/add";
         }
         categoryDao.save(category);
-        return "redirect: ";
+        return "redirect:";
     }
-
 
 }
